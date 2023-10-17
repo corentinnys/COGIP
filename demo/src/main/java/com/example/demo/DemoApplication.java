@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.ui.Model;
 
 
 @SpringBootApplication
@@ -49,36 +50,6 @@ public class DemoApplication {
 		}
 	}
 
-	/*@GetMapping("/users")
-	public String users() {
-		DatabaseConnection database = new DatabaseConnection();
-
-		// Utilisez la connexion à la base de données
-		Connection connection = database.getConnection();
-		String query = "SELECT * FROM user";
-
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-
-			while (resultSet.next()) {
-				// Lire les données du résultat ici
-				String userName = resultSet.getString("userName");
-				System.out.println(userName);
-
-			}
-			resultSet.close();
-			statement.close();
-		} catch (SQLException e) {
-			// Gérez l'exception ici (par exemple, en affichant un message d'erreur)
-			e.printStackTrace();
-		}
-
-		// Fermez la connexion lorsque vous avez fini
-		// connection.closeConnection();
-		return "Hello, World!";
-	}*/
-
-
 
 }
+

@@ -1,11 +1,11 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -13,8 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
-
-@RestController
+@Controller
 public class userController {
 
     public List<User> getUsers() {
@@ -53,4 +52,23 @@ public class userController {
 
         return userList;
     }
+
+    @GetMapping("/sample")
+    public String samplePage(Model model) {
+        model.addAttribute("message", "Hello, World!");
+       return "sample";
+
+    }
+    @PostMapping("/users/insert")
+    public String submitForm(@RequestParam String name , @RequestParam String password)
+    {
+        System.out.println(name);
+
+
+        DataInsertion dataInsertion = new DataInsertion();
+        dataInsertion.insertData(name,password,"intern");
+      return  "confirmation";
+    }
+
+
 }

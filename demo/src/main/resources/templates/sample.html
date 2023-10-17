@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sample Page</title>
+</head>
+<body>
+<h1 th:text="${message}">Welcome to our Spring Boot App!</h1>
+<form method="POST" action="/users/insert">
+    <label>votre nom</label>
+    <input type="text" name="name">
+    <label>votre mot de passe </label>
+    <input type="password" name="password">
+    <input type="hidden" name="role" value="intern">
+    <input type="submit" value="valider">
+</form>
+</body>
+</html>
