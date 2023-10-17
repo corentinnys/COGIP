@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 @SpringBootApplication
@@ -21,10 +25,32 @@ public class DemoApplication {
 
 
 	}
+	@GetMapping("/users")
+	public String users() {
+		userController userController = new userController(); // Assuming UserController is the correct class name
 
+		List<User> userList = new ArrayList<>();
+		for (User user : userController.getUsers()) {
+			String userName = user.getUserName(); // Assuming you have a 'getUserName' method in the User class
+			String userRole = user.getUserRole();
+			user.setUserName(userName);
+			user.setUserRole(userRole);
+			userList.add(user);
+		}
 
-	@GetMapping("/hello")
-	public String sayHello() {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String json = objectMapper.writeValueAsString(userList);
+			return json;
+		} catch (JsonProcessingException e) {
+			// Handle exceptions related to JSON processing
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/*@GetMapping("/users")
+	public String users() {
 		DatabaseConnection database = new DatabaseConnection();
 
 		// Utilisez la connexion à la base de données
@@ -39,6 +65,7 @@ public class DemoApplication {
 				// Lire les données du résultat ici
 				String userName = resultSet.getString("userName");
 				System.out.println(userName);
+
 			}
 			resultSet.close();
 			statement.close();
@@ -50,7 +77,7 @@ public class DemoApplication {
 		// Fermez la connexion lorsque vous avez fini
 		// connection.closeConnection();
 		return "Hello, World!";
-	}
+	}*/
 
 
 
