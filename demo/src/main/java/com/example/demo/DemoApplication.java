@@ -26,7 +26,7 @@ public class DemoApplication {
 
 
 	}
-	@GetMapping("/users")
+	/*@GetMapping("/users")
 	public String users() {
 		userController userController = new userController(); // Assuming UserController is the correct class name
 
@@ -40,15 +40,16 @@ public class DemoApplication {
 		}
 
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
+			*//*ObjectMapper objectMapper = new ObjectMapper();
 			String json = objectMapper.writeValueAsString(userList);
-			return json;
+			return json;*//*
+
 		} catch (JsonProcessingException e) {
 			// Handle exceptions related to JSON processing
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
 
 }

@@ -19,4 +19,21 @@ public class DataInsertion {
             e.printStackTrace();
         }
     }
+
+    public void updateData(int id, String newUserName, String newRole) {
+        try (Connection connection = new DatabaseConnection().getConnection()) {
+            String sql = "UPDATE user SET userName = ?, role = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, newUserName);
+            statement.setString(2, newRole);
+            statement.setInt(3, id);
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Données mises à jour avec succès.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

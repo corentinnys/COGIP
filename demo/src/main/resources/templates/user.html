@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>test</h1>
+
+
+  <h1>Liste de personnes</h1>
+  <ul>
+    <li th:each="person : ${users}">
+      <span th:text="${person.userName}">Prénom</span>
+      <a th:href="'/users/modify/' + ${person.id}">modifier</a>
+
+    </li>
+  </ul>
+
+</body>
+</html>

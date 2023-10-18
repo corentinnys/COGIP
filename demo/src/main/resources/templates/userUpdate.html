@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ test
+ <form method="POST" action="http://127.0.0.1:8080/users/modification">
+     <input type="hidden" name="id" th:value="${user.id}" >
+     <label>votre nom</label>
+    <input type="text" name="name" th:value="${user.userName}">
+     <label>le role</label>
+     <input type="text" name="role" th:value="${user.userRole}">
+     <input type="submit" value="modifier">
+ </form>
+
+</body>
+</html>
