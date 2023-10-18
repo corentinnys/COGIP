@@ -51,6 +51,27 @@ public class companieController {
     }
 
 
+    @PostMapping("/company/modification")
+    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String country,@RequestParam int vat,@RequestParam String type)
+    {
+        try (Connection connection = new DatabaseConnection().getConnection()) {
+            String sql = "UPDATE company SET name = ?, country = ?, vat = ?, type = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, country);
+            statement.setInt(3, vat);
+            statement.setString(4, type);
+            statement.setInt(5, id);
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Données mises à jour avec succès.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "confirmation";
+    }
 
 
     @GetMapping("/company/delete/{id}")
@@ -94,27 +115,6 @@ public class companieController {
     }
 
 
-    @PostMapping("company/modification")
-    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String country,@RequestParam int vat,@RequestParam String type)
-    {
-        try (Connection connection = new DatabaseConnection().getConnection()) {
-            String sql = "UPDATE company SET name = ?, country = ?, vat = ?, type = ? WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, name);
-            statement.setString(2, country);
-            statement.setInt(3, vat);
-            statement.setString(4, type);
-            statement.setInt(5, id);
-
-            int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
-                System.out.println("Données mises à jour avec succès.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return "confirmation";
-    }
 
     private Company getCompanyById(int id) {
         DatabaseConnection database = new DatabaseConnection();
