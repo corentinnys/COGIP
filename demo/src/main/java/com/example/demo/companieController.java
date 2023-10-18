@@ -3,11 +3,10 @@ package com.example.demo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,34 @@ public class companieController {
         //companieController.getCompanies();
         model.addAttribute("companies",companieController.getCompanies());
         return "companies";
+    }
+
+    @GetMapping("company/create")
+    public String create (Model model) {
+
+        return "createCompany";
+    }
+    @PostMapping("/company/insert")
+    public String submitForm(@RequestParam String name , @RequestParam String country,@RequestParam int vat,@RequestParam String type)
+    {
+
+        try (Connection connection = new DatabaseConnection().getConnection()) {
+            String sql = "INSERT INTO company (name, country,vat,type,timestamp) VALUES (?, ?,? ,?,current_timestamp)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, country);
+            statement.setInt(3, vat);
+            statement.setString(4, type);
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return  "confirmation";
     }
 
 
