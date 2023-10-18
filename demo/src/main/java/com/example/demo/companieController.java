@@ -3,6 +3,7 @@ package com.example.demo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -47,6 +48,35 @@ public class companieController {
         }
 
         return  "confirmation";
+    }
+
+
+
+
+    @GetMapping("/company/delete/{id}")
+    public String delete(@PathVariable int id) {
+        DatabaseConnection database = new DatabaseConnection();
+        Connection connection = database.getConnection();
+        String query = "DELETE FROM company WHERE id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate(); // Exécutez la requête pour effectuer la suppression
+        } catch (SQLException e) {
+            // Gérez l'exception ici (par exemple, en affichant un message d'erreur)
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "confirmation"; // Vous pouvez rediriger vers une page de confirmation ou toute autre page appropriée.
     }
 
 
