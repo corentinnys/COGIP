@@ -61,6 +61,35 @@ public class userController {
 
     }
 
+
+
+    @GetMapping("/users/delete/{id}")
+    public String delete(@PathVariable int id) {
+        DatabaseConnection database = new DatabaseConnection();
+        Connection connection = database.getConnection();
+        String query = "DELETE FROM user WHERE id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate(); // Exécutez la requête pour effectuer la suppression
+        } catch (SQLException e) {
+            // Gérez l'exception ici (par exemple, en affichant un message d'erreur)
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "confirmation"; // Vous pouvez rediriger vers une page de confirmation ou toute autre page appropriée.
+    }
+
+
     @GetMapping("/users")
     public String userPage(Model model) {
         userController userController = new userController();
@@ -103,6 +132,7 @@ public class userController {
         model.addAttribute("user", user);
         return "userUpdate";
     }
+
 
 
 
