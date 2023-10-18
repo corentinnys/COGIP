@@ -5,6 +5,7 @@ public class Company {
     private int id;
     private String companyName;
     private String companyCountry;
+    private int companyVat;
     private String companyType;
 
 
@@ -20,6 +21,16 @@ public class Company {
     {
         this.companyCountry = companyCountry;
     }
+    public void setCompanyVat(int companyVat)
+    {
+        this.companyVat = companyVat;
+    }
+    public void setCompanyType(String companyType)
+    {
+        this.companyType = companyType;
+    }
+
+
 
     public Integer getId()
     {
@@ -32,5 +43,14 @@ public class Company {
     public String getCompanyCountry()
     {
         return  this.companyCountry ;
+    }
+
+    public int getCompanyVat()
+    {
+        return  this.companyVat  ;
+    }
+    public String getCompanyType()
+    {
+        return  this.companyType ;
     }
 }

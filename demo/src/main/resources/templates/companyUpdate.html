@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+test
+<form method="POST" action="http://127.0.0.1:8080/company/modification">
+    <input type="hidden" name="id"  th:value="${company.id}">
+    <label>votre nom</label>
+    <input type="text" name="name" th:value="${company.companyName}">
+    <label>le pays</label>
+    <input type="text" name="country" th:value="${company.companyCountry}">
+    <label>le VAT</label>
+    <input type="number" name="vat" th:value="${company.companyVat}">
+    <label>le type</label>
+    <input type="text" name="type" th:value="${company.companyType}">
+
+    <input type="submit" value="modifier">
+</form>
+
+</body>
+</html>

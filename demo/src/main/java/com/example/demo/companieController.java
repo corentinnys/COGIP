@@ -79,6 +79,79 @@ public class companieController {
         return "confirmation"; // Vous pouvez rediriger vers une page de confirmation ou toute autre page appropriée.
     }
 
+    @GetMapping("/company/modify/{id}")
+    public String userUpdatePage(@PathVariable int id, Model model) {
+        Company company = getCompanyById(id);
+
+        if (company == null) {
+            // Gérez le cas où l'utilisateur n'est pas trouvé (par exemple, renvoyez une page d'erreur)
+            return "userNotFound";
+        }
+
+        model.addAttribute("company", company);
+
+        return "companyUpdate";
+    }
+
+
+    @PostMapping("company/modification")
+    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String country,@RequestParam int vat,@RequestParam String type)
+    {
+        try (Connection connection = new DatabaseConnection().getConnection()) {
+            String sql = "UPDATE company SET name = ?, country = ?, vat = ?, type = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, country);
+            statement.setInt(3, vat);
+            statement.setString(4, type);
+            statement.setInt(5, id);
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Données mises à jour avec succès.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "confirmation";
+    }
+
+    private Company getCompanyById(int id) {
+        DatabaseConnection database = new DatabaseConnection();
+        Connection connection = database.getConnection();
+        String query = "SELECT * FROM company WHERE id = ?";
+        Company company = null;
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                // Si l'utilisateur est trouvé, créez un objet User avec les données de la base de données
+                company = new Company();
+                company.setCompanyId(resultSet.getInt("id"));
+                company.setCompanyName(resultSet.getString("name"));
+                company.setCompanyCountry(resultSet.getString("country"));
+                company.setCompanyVat(resultSet.getInt("vat"));
+                company.setCompanyType(resultSet.getString("type"));
+
+
+                // Ajoutez d'autres attributs comme nécessaire
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            // Gérez l'exception ici (par exemple, en affichant un message d'erreur)
+            e.printStackTrace();
+        }
+
+        return company ;
+    }
+
 
     public List<Company> getCompanies() {
         DatabaseConnection database = new DatabaseConnection();
