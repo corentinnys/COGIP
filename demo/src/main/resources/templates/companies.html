@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>test</h1>
+
+<a href="company/create">create</a>
+<h1>Liste de personnes</h1>
+<ul>
+    <li th:each="company : ${companies}">
+        <span th:text="${company.companyName}"></span>
+        <a th:href="'/company/modify/' + ${company.id}">modifier</a>
+        <a th:href="'/company/delete/' + ${company.id}">supprimer</a>
+    </li>
+</ul>
+
+</body>
+</html>
