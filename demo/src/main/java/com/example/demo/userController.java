@@ -95,10 +95,13 @@ public class userController {
     @GetMapping("/users")
     public String userPage(Model model, HttpServletRequest request) {
         HttpSession userSession = request.getSession(false);
+
         if (userSession != null) {
             userController userController = new userController();
-            userController.getUsers();
+
+
             model.addAttribute("users", userController.getUsers());
+
             return "user";
         }else
         {

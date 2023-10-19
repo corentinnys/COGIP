@@ -42,9 +42,9 @@ public class loginController {
 
                 model.addAttribute("user", resultSet.getString("userName"));
                 model.addAttribute("role", resultSet.getString("role"));
-                return "loginSuccessful"; // Use an appropriate view name for a successful login.
+                return "loginSuccessful";
             } else {
-                return "loginFailed"; // Use an appropriate view name for a failed login.
+                return "loginFailed";
             }
         } catch (SQLException e) {
             // Handle the exception or log it.
@@ -56,6 +56,15 @@ public class loginController {
     @GetMapping("/loginForm")
     public String loginForm() {
         return "loginForm"; // Return the name of the HTML template for the login form.
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "loginForm";
     }
 }
 
