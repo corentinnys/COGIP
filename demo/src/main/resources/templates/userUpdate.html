@@ -7,7 +7,6 @@
 <body>
  test
  <form method="POST" action="http://127.0.0.1:8080/users/modification">
-     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
      <input type="hidden" name="id" th:value="${user.id}" >
      <label>votre nom</label>
     <input type="text" name="name" th:value="${user.userName}">

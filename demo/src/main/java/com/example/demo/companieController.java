@@ -7,19 +7,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class companieController {
 
     @GetMapping("/company")
-    public String userPage(Model model) {
-        companieController companieController = new companieController();
-        //companieController.getCompanies();
-        model.addAttribute("companies",companieController.getCompanies());
-        return "companies";
+    public String userPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+        HttpSession userSession = request.getSession(false);
+        if (userSession != null)
+        {
+            companieController companieController = new companieController();
+            //companieController.getCompanies();
+            model.addAttribute("companies",companieController.getCompanies());
+            return "companies";
+        }else
+        {
+            return "loginForm";
+        }
+
+
     }
 
     @GetMapping("company/create")

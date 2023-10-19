@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -91,11 +93,17 @@ public class userController {
 
 
     @GetMapping("/users")
-    public String userPage(Model model) {
-        userController userController = new userController();
-        userController.getUsers();
-        model.addAttribute("users", userController.getUsers());
-        return "user";
+    public String userPage(Model model, HttpServletRequest request) {
+        HttpSession userSession = request.getSession(false);
+        if (userSession != null) {
+            userController userController = new userController();
+            userController.getUsers();
+            model.addAttribute("users", userController.getUsers());
+            return "user";
+        }else
+        {
+            return "loginForm";
+        }
 
     }
 
