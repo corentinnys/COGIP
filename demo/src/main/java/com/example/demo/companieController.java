@@ -206,4 +206,60 @@ public class companieController {
         return companyList;
     }
 
+    @GetMapping("/company/tri/{type}")
+    public String tri(@PathVariable String type, Model model) {
+        List<Company> companyList = new ArrayList<>();
+        DatabaseConnection database = new DatabaseConnection();
+        Connection connection = database.getConnection();
+        String query = "SELECT * FROM company WHERE type = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, type);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String country = resultSet.getString("country");
+                int vat = resultSet.getInt("vat");
+                String companyType = resultSet.getString("type");
+                int id = resultSet.getInt("id");
+
+                Company company = new Company();
+                company.setCompanyName(name);
+                company.setCompanyCountry(country);
+                company.setCompanyVat(vat);
+                company.setCompanyType(companyType);
+                company.setCompanyId(id);
+
+                companyList.add(company);
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            // Handle the exception properly in your application
+            e.printStackTrace();
+        } finally {
+            // Close the connection in a finally block to ensure it's always closed
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    // Handle any closing exceptions properly
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Add the companyList to the model so it can be used in your view
+        model.addAttribute("companies", companyList);
+
+        // Return the name of the view to be rendered, for example, "companyList" or whatever your view name is.
+        return "companyTri";
+    }
+
 }
+
+
