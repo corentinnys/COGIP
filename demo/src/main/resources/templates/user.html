@@ -13,8 +13,11 @@
   <ul class="list-group">
     <li  class="list-group-item" th:each="person : ${users}">
       <span th:text="${person.userName}">Prénom</span>
-      <a th:href="'/users/modify/' + ${person.id}">modifier</a>
-      <a th:href="'/users/delete/' + ${person.id}">supprimer</a>
+      <th:block th:if="${#session.getAttribute('role') == 'admin'}">
+        <a th:href="'/users/modify/' + ${person.id}">modifier</a>
+        <a th:href="'/users/delete/' + ${person.id}">supprimer</a>
+      </th:block>
+
 
     </li>
   </ul>

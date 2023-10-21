@@ -39,9 +39,10 @@ public class loginController {
 
                 HttpSession session = request.getSession();
                 session.setAttribute("user", resultSet.getString("userName"));
+                session.setAttribute("role", resultSet.getString("role"));
 
                 model.addAttribute("user", resultSet.getString("userName"));
-                model.addAttribute("role", resultSet.getString("role"));
+                //model.addAttribute("role", resultSet.getString("role"));
                 return "loginSuccessful";
             } else {
                 return "loginFailed";

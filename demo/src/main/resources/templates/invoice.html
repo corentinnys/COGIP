@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Liste des invoices</h1>
+<ul class="list-group">
+    <li  class="list-group-item" th:each="items : ${invoices}">
+       <span th:text="${items.getCompany()}">Prénom</span>
+       <span th:text="${items.getContactFirstName()}">Prénom</span>
+       <span th:text="${items.getContactLastName()}">Prénom</span>
+
+
+
+
+
+    </li>
+</ul>
+
+</body>
+</html>

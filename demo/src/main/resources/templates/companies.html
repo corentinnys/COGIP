@@ -13,8 +13,10 @@
 <ul>
     <li th:each="company : ${companies}">
         <span th:text="${company.companyName}"></span>
+        <th:block th:if="${#session.getAttribute('role') == 'admin'}">
         <a th:href="'/company/modify/' + ${company.id}">modifier</a>
         <a th:href="'/company/delete/' + ${company.id}">supprimer</a>
+        </th:block>
     </li>
 </ul>
 
