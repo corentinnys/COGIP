@@ -18,7 +18,7 @@ public class ContactController {
     public List<Contact> getContacts() {
         DatabaseConnection database = new DatabaseConnection();
         Connection connection = database.getConnection();
-        String query = "SELECT * from contact";
+        String query = "SELECT * from contact INNER JOIN  company on company.id = contact.contact_company_id";
 
         List<Contact> contactList = new ArrayList<>();
 
@@ -30,13 +30,22 @@ public class ContactController {
                 int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-
+                String email = resultSet.getString("email");
+                String companyName = resultSet.getString("name");
+                String phone = resultSet.getString("phone");
                 // Créez un objet Contact en utilisant les données extraites.
                 Contact contact = new Contact(); // Vous devez créer un constructeur approprié pour la classe Contact.
                 contact.setLastName(lastName);
                 contact.setFirstName(firstName);
+                contact.setEmail(email);
                 contact.setId(id);
+                contact.setPhone(phone);
+                contact.setCompany(companyName);
                 contactList.add(contact);
+
+
+
+
             }
 
             resultSet.close();
@@ -54,7 +63,7 @@ public class ContactController {
     @PostMapping("/contact/update")
     public String updateContact(Model model,@RequestParam int id, @RequestParam String firstName, @RequestParam String lastName,@RequestParam String phone,@RequestParam String email)
     {
-        System.out.print("passe");
+
         this.updateData(id,firstName,lastName,phone,email);
 
         return "redirect:/contacts";

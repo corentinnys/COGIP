@@ -42,12 +42,12 @@ public class invoiceController {
                 invoice.setInvoiceContactID(contactID);
 
                 Company company = new Company();
-                //company.setId(companyID);
+
                     company.setCompanyName(companyName);
                  Contact contact = new Contact();
                  contact.setFirstName(contactFirstName);
                 contact.setLastName(contactLastName);
-                //invoice.setCompany(company);
+
                invoice.setContactLastName(contactLastName);
                invoice.setContactFirstName(contactFirstName);
                 invoice.setCompany(companyName);

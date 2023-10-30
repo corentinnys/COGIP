@@ -11,15 +11,36 @@
 <a href="contact/new">ajouter</a>
  <h1>Liste des contacts</h1>
 
- <ul class="list-group">
-   <li class="list-group-item" th:each="person : ${contacts}">
-     <span th:text="${person.lastName}"></span>
-     <span th:text="${person.firstName}"></span>
-     <a th:href="'/contacts/modify/' + ${person.id}">modifier</a>
-     <a th:href="'/contacts/delete/' + ${person.id}">supprimer</a>
-   </li>
-   <li th:if="${#lists.isEmpty(contacts)}">Aucun contact n'a été trouvé.</li>
- </ul>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Last</th>
+        <th scope="col">first</th>
+        <th scope="col">email</th>
+        <th scope="col">phone</th>
+        <th scope="col">company</th>
+        <th scope="col">actions</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="person : ${contacts}">
+        <th scope="row"></th>
+        <td th:text="${person.lastName}"></td>
+        <td th:text="${person.firstName}"></td>
+        <td th:text="${person.email}"></td>
+        <td th:text="${person.phone}"></td>
+        <td th:text="${person.getCompany()}"></td>
+
+        <th:block th:if="${#session.getAttribute('role') == 'admin' || #session.getAttribute('role') =='accountant' }">
+            <td>  <a th:href="'/contacts/modify/' + ${person.id}">modifier</a>
+                <a th:href="'/contacts/delete/' + ${person.id}">supprimer</a></td>
+        </th:block>
+
+
+    </tr>
+    </tbody>
 
 </body>
 </html>

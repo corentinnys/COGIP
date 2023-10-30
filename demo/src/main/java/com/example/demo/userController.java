@@ -121,9 +121,6 @@ public class userController {
     @PostMapping("/users/insert")
     public String submitForm(@RequestParam String name , @RequestParam String password)
     {
-        System.out.println(name);
-
-
         DataInsertion dataInsertion = new DataInsertion();
         dataInsertion.insertData(name,password,"intern");
       return  "confirmation";

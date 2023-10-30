@@ -29,21 +29,29 @@ public class loginController {
         try {
             DatabaseConnection database = new DatabaseConnection();
             Connection connection = database.getConnection();
-            String query = "SELECT * FROM user WHERE userName = ? AND password = ?";
+            String query = "SELECT * FROM user WHERE userName = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, password);
+
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                Passwordhashing passwordhashing = new Passwordhashing();
+                boolean checkingPassword =passwordhashing.check(password,resultSet.getString("password"));
+                if (checkingPassword== true)
+                {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", resultSet.getString("userName"));
+                    session.setAttribute("role", resultSet.getString("role"));
 
-                HttpSession session = request.getSession();
-                session.setAttribute("user", resultSet.getString("userName"));
-                session.setAttribute("role", resultSet.getString("role"));
+                    model.addAttribute("user", resultSet.getString("userName"));
+                    //model.addAttribute("role", resultSet.getString("role"));
+                    return "loginSuccessful";
+                }else {
+                    return "loginFailed";
+                }
 
-                model.addAttribute("user", resultSet.getString("userName"));
-                //model.addAttribute("role", resultSet.getString("role"));
-                return "loginSuccessful";
+
             } else {
                 return "loginFailed";
             }
@@ -60,7 +68,8 @@ public class loginController {
     }
 
 
-    @GetMapping("/logout")
+
+        @GetMapping("/logout")
     public String logout(HttpServletRequest request)
     {
         HttpSession session = request.getSession();
@@ -68,6 +77,11 @@ public class loginController {
         return "loginForm";
     }
 
+
+    @GetMapping("/register")
+    public String registerForm(){
+        return "registerForm";
+    }
 
 
 

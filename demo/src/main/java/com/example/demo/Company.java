@@ -8,6 +8,8 @@ public class Company {
     private int companyVat;
     private String companyType;
 
+    private int contact;
+
 
     public void setCompanyId(int id)
     {
@@ -53,4 +55,6 @@ public class Company {
     {
         return  this.companyType ;
     }
+
+
 }

@@ -4,11 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 public class DataInsertion {
     public void insertData(String firstName, String password, String role) {
+        Passwordhashing passwordhashing = new Passwordhashing();
+        String passwordCrypte = passwordhashing.hashing(password);
         try (Connection connection = new DatabaseConnection().getConnection()) {
             String sql = "INSERT INTO user (userName, password,role) VALUES (?, ?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, firstName);
-            statement.setString(2, password);
+            statement.setString(2, passwordCrypte);
             statement.setString(3, role);
 
             int rowsInserted = statement.executeUpdate();

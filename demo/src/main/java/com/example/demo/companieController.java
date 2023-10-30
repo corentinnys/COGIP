@@ -24,7 +24,7 @@ public class companieController {
         if (userSession != null)
         {
             companieController companieController = new companieController();
-            //companieController.getCompanies();
+
             model.addAttribute("companies",companieController.getCompanies());
             return "companies";
         }else
@@ -169,9 +169,13 @@ public class companieController {
     public List<Company> getCompanies() {
         DatabaseConnection database = new DatabaseConnection();
         Connection connection = database.getConnection();
-        String query = "SELECT * FROM company";
+        /*String query = "SELECT company.id ,company.name,company.country,company.type,company.vat,contact.firstName\n" +
+                "FROM `company` LEFT JOIN `contact` ON `company`.`id` = `contact`.`contact_company_id`";
+*/
 
+        String query ="SELECT  * from company";
         List<Company> companyList = new ArrayList<>();
+
 
         try {
             Statement statement = connection.createStatement();
@@ -182,15 +186,15 @@ public class companieController {
                 String name = resultSet.getString("name");
                 String country = resultSet.getString("country");
                 String type = resultSet.getString("type");
+                int vat = resultSet.getInt("vat");
                 int id = resultSet.getInt("id");
 
                 Company company = new Company();
                 company.setCompanyName(name);
                 company.setCompanyCountry(country);
+                company.setCompanyVat(vat);
                 company.setCompanyId(id);
-
                 companyList.add(company);
-
 
             }
 
@@ -205,6 +209,9 @@ public class companieController {
 
         return companyList;
     }
+
+
+
 
     @GetMapping("/company/tri/{type}")
     public String tri(@PathVariable String type, Model model) {

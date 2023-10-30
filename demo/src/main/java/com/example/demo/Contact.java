@@ -8,6 +8,8 @@ public class Contact {
     private  String lastName;
     private  String phone;
     private  String email;
+    private  int contact_company_id;
+    private  String company;
 
     public void setId(int id) {
         this.id = id;
@@ -21,6 +23,10 @@ public class Contact {
         this.lastName = lastName;
     }
 
+    public void setContact_company_id(int contact_company_id) {
+        this.contact_company_id = contact_company_id;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
@@ -29,12 +35,21 @@ public class Contact {
         this.email = email;
     }
 
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+
     public String getFirstName() {
         return firstName;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getCompany() {
+        return company;
     }
 
     public String getLastName() {
@@ -47,5 +62,9 @@ public class Contact {
 
     public String getPhone() {
         return phone;
+    }
+
+    public int getContact_company_id() {
+        return contact_company_id;
     }
 }
