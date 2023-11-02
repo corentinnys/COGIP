@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <div th:replace="fragments/monFragment::maSection"></div>
-
+    <div class="container" th:replace="${templateName} :: content"></div>
+</div>
 </body>
 </html>

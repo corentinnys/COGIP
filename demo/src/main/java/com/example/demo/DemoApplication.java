@@ -26,9 +26,11 @@ public class DemoApplication {
 
 	}
 	@GetMapping("/")
-	public String home()
+	public String home(Model model)
 	{
-		return "loginForm";
+		model.addAttribute("templateName", "loginForm");
+		return "template";
+
 	}
 
 	/*@GetMapping("/users")

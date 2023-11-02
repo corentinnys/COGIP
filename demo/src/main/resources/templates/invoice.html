@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div th:fragment="content">
 <h1>Liste des invoices</h1>
 <ul class="list-group">
     <li  class="list-group-item" th:each="items : ${invoices}">
@@ -19,5 +13,4 @@
     </li>
 </ul>
 
-</body>
-</html>
+</div>

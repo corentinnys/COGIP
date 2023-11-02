@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
-public class loginController {
+public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam String userName, @RequestParam String password, Model model,HttpServletRequest request, HttpServletResponse response) {
@@ -46,14 +46,18 @@ public class loginController {
 
                     model.addAttribute("user", resultSet.getString("userName"));
                     //model.addAttribute("role", resultSet.getString("role"));
-                    return "loginSuccessful";
+                    model.addAttribute("templateName", "loginSuccessful");
+
+                    return "template";
                 }else {
-                    return "loginFailed";
+                    model.addAttribute("templateName", "loginFailed");
+                    return "template";
                 }
 
 
             } else {
-                return "loginFailed";
+                model.addAttribute("templateName", "loginFailed");
+                return "template";
             }
         } catch (SQLException e) {
             // Handle the exception or log it.
@@ -63,33 +67,31 @@ public class loginController {
     }
 
     @GetMapping("/loginForm")
-    public String loginForm() {
-        return "loginForm"; // Return the name of the HTML template for the login form.
+    public String loginForm(Model model) {
+        model.addAttribute("templateName", "loginForm");
+        return "template";
+       // Return the name of the HTML template for the login form.
     }
 
 
 
-        @GetMapping("/logout")
-    public String logout(HttpServletRequest request)
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,Model model)
     {
         HttpSession session = request.getSession();
         session.invalidate();
-        return "loginForm";
+        model.addAttribute("templateName", "loginForm");
+        return "template";
+
     }
 
 
     @GetMapping("/register")
-    public String registerForm(){
-        return "registerForm";
+    public String registerForm(Model model){
+        model.addAttribute("templateName", "registerForm");
+        return "template";
     }
 
 
 
 }
-
-
-
-
-
-
-

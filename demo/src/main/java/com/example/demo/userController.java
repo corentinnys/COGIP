@@ -59,14 +59,15 @@ public class userController {
     @GetMapping("/sample")
     public String samplePage(Model model) {
         model.addAttribute("message", "Hello, World!");
-       return "sample";
+        model.addAttribute("templateName", "sample");
+        return "template";
 
     }
 
 
 
     @GetMapping("/users/delete/{id}")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable int id,Model model) {
         DatabaseConnection database = new DatabaseConnection();
         Connection connection = database.getConnection();
         String query = "DELETE FROM user WHERE id = ?";
@@ -87,8 +88,9 @@ public class userController {
                 e.printStackTrace();
             }
         }
+        model.addAttribute("templateName", "confirmation");
+        return "template";
 
-        return "confirmation"; // Vous pouvez rediriger vers une page de confirmation ou toute autre page appropriée.
     }
 
 
@@ -101,29 +103,35 @@ public class userController {
 
 
             model.addAttribute("users", userController.getUsers());
+            model.addAttribute("templateName", "user");
+            return "template";
 
-            return "user";
         }else
         {
-            return "loginForm";
+            model.addAttribute("templateName", "loginFrom");
+            return "template";
         }
 
     }
 
 
     @PostMapping("/users/modification")
-    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String role) {
+    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String role,Model model) {
         DataInsertion dataInsertion = new DataInsertion();
         dataInsertion.updateData(id, name, role);
-        return "confirmation";
+        model.addAttribute("templateName", "confirmation");
+        return "template";
     }
 
     @PostMapping("/users/insert")
-    public String submitForm(@RequestParam String name , @RequestParam String password)
+    public String submitForm(@RequestParam String name , @RequestParam String password,Model model)
     {
         DataInsertion dataInsertion = new DataInsertion();
         dataInsertion.insertData(name,password,"intern");
-      return  "confirmation";
+        model.addAttribute("templateName", "confirmation");
+        return "template";
+
+
     }
 
 
@@ -134,11 +142,13 @@ public class userController {
 
         if (user == null) {
             // Gérez le cas où l'utilisateur n'est pas trouvé (par exemple, renvoyez une page d'erreur)
-            return "userNotFound";
+            model.addAttribute("templateName", "userNotFound");
+            return "template";
         }
 
         model.addAttribute("user", user);
-        return "userUpdate";
+        model.addAttribute("templateName", "userUpdate");
+        return "template";
     }
 
 
@@ -175,6 +185,24 @@ public class userController {
         }
 
         return user;
+    }
+
+
+    public boolean checkIfConnect(HttpServletRequest request)
+    {
+        HttpSession userSession = request.getSession(false);
+        if (userSession != null)
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
+
+    }
+
+    public void init() {
+        userController  userController= new userController(); // Initialisez correctement l'instance
     }
 
 

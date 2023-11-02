@@ -12,36 +12,66 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
 
 @Controller
 public class companieController {
 
+    private userController userController;
+
+    public static void main(String[] args) {
+        // Vous ne pouvez pas utiliser "this" dans une méthode statique
+        // Pour instancier UserController, vous pouvez faire ceci :
+        userController userController = new userController();
+    }
     @GetMapping("/company")
     public String userPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+
         HttpSession userSession = request.getSession(false);
         if (userSession != null)
         {
             companieController companieController = new companieController();
 
             model.addAttribute("companies",companieController.getCompanies());
-            return "companies";
+
+            model.addAttribute("templateName", "companies");
+
+            return "template";
+
         }else
         {
-            return "loginForm";
+            model.addAttribute("templateName", "loginForm");
+
+            return "template";
         }
 
 
     }
 
     @GetMapping("company/create")
-    public String create (Model model) {
+    public String create (Model model,HttpServletRequest request) {
 
-        return "createCompany";
+        HttpSession userSession = request.getSession(false);
+        if (userSession != null)
+        {
+            model.addAttribute("templateName", "createCompany");
+
+            return "template";
+
+        }else
+        {
+            model.addAttribute("templateName", "loginForm");
+
+            return "template";
+
+        }
+
+
     }
     @PostMapping("/company/insert")
-    public String submitForm(@RequestParam String name , @RequestParam String country,@RequestParam int vat,@RequestParam String type)
+    public String submitForm(@RequestParam String name , @RequestParam String country,@RequestParam int vat,@RequestParam String type,Model model)
     {
 
         try (Connection connection = new DatabaseConnection().getConnection()) {
@@ -60,12 +90,15 @@ public class companieController {
             e.printStackTrace();
         }
 
-        return  "confirmation";
+        model.addAttribute("templateName", "confirmation");
+
+        return "template";
+
     }
 
 
     @PostMapping("/company/modification")
-    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String country,@RequestParam int vat,@RequestParam String type)
+    public String update(@RequestParam int id,@RequestParam String name,@RequestParam String country,@RequestParam int vat,@RequestParam String type,Model model)
     {
         try (Connection connection = new DatabaseConnection().getConnection()) {
             String sql = "UPDATE company SET name = ?, country = ?, vat = ?, type = ? WHERE id = ?";
@@ -83,12 +116,15 @@ public class companieController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "confirmation";
+        model.addAttribute("templateName", "confirmation");
+
+        return "template";
+
     }
 
 
     @GetMapping("/company/delete/{id}")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable int id,Model model) {
         DatabaseConnection database = new DatabaseConnection();
         Connection connection = database.getConnection();
         String query = "DELETE FROM company WHERE id = ?";
@@ -109,8 +145,9 @@ public class companieController {
                 e.printStackTrace();
             }
         }
+        model.addAttribute("templateName", "confirmation");
 
-        return "confirmation"; // Vous pouvez rediriger vers une page de confirmation ou toute autre page appropriée.
+        return "template";
     }
 
     @GetMapping("/company/modify/{id}")
@@ -119,13 +156,19 @@ public class companieController {
 
         if (company == null) {
             // Gérez le cas où l'utilisateur n'est pas trouvé (par exemple, renvoyez une page d'erreur)
-            return "userNotFound";
+            model.addAttribute("templateName", "userNotFound");
+
+            return "template";
+
         }
 
         model.addAttribute("company", company);
+        model.addAttribute("templateName", "companyUpdate");
 
-        return "companyUpdate";
+        return "template";
     }
+
+
 
 
 
@@ -263,9 +306,14 @@ public class companieController {
         // Add the companyList to the model so it can be used in your view
         model.addAttribute("companies", companyList);
 
+        model.addAttribute("templateName", "companyTri");
+
+        return "template";
         // Return the name of the view to be rendered, for example, "companyList" or whatever your view name is.
-        return "companyTri";
+
     }
+
+
 
 }
 

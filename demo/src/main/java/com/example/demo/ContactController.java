@@ -54,7 +54,7 @@ public class ContactController {
             e.printStackTrace();
         } finally {
             // Assurez-vous de fermer la connexion dans une clause finally.
-           // database.closeConnection();
+            // database.closeConnection();
         }
 
         return contactList;
@@ -97,10 +97,16 @@ public class ContactController {
 
             model.addAttribute("contacts",contactController.getContacts());
 
-            return "contact";
+            model.addAttribute("templateName", "contact");
+
+            return "template";
+
         }else
         {
-            return "loginForm";
+            model.addAttribute("templateName", "loginForm");
+
+            return "template";
+
         }
 
     }
@@ -112,40 +118,47 @@ public class ContactController {
 
         if (contact == null) {
             // Gérez le cas où l'utilisateur n'est pas trouvé (par exemple, renvoyez une page d'erreur)
-            return "contactNotFound";
+            model.addAttribute("templateName", "contactNotFound");
+
+            return "template";
+
         }
 
         model.addAttribute("contact", contact);
-        return "contactUpdate";
+        model.addAttribute("templateName", "contactUpdate");
+
+        return "template";
     }
 
-@GetMapping("contact/new")
-    public String create()
-{
-    return "createFormContact";
-}
+    @GetMapping("contact/new")
+    public String create(Model model)
+    {
+        model.addAttribute("templateName", "createFormContact");
+
+        return "template";
+    }
 
 
-@PostMapping("contact/add")
-public String add(@RequestParam String firstName , @RequestParam String lastName,@RequestParam String phone, @RequestParam String email){
-    try (Connection connection = new DatabaseConnection().getConnection()) {
-        String sql = "INSERT INTO contact (firstName, lastName,phone,email,contact_company_id) VALUES (?, ?,?,?,1)";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, firstName);
-        statement.setString(2, lastName);
-        statement.setString(3, phone);
-        statement.setString(4, email);
+    @PostMapping("contact/add")
+    public String add(@RequestParam String firstName , @RequestParam String lastName,@RequestParam String phone, @RequestParam String email){
+        try (Connection connection = new DatabaseConnection().getConnection()) {
+            String sql = "INSERT INTO contact (firstName, lastName,phone,email,contact_company_id) VALUES (?, ?,?,?,1)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, phone);
+            statement.setString(4, email);
 
-        int rowsInserted = statement.executeUpdate();
-        if (rowsInserted > 0) {
-            System.out.println("Data inserted successfully.");
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return "redirect:/contacts";
+        //return "contact";
     }
-    return "redirect:/contacts";
-            //return "contact";
-}
 
     private Contact getContactById(int id) {
         DatabaseConnection database = new DatabaseConnection();

@@ -43,13 +43,13 @@ public class invoiceController {
 
                 Company company = new Company();
 
-                    company.setCompanyName(companyName);
-                 Contact contact = new Contact();
-                 contact.setFirstName(contactFirstName);
+                company.setCompanyName(companyName);
+                Contact contact = new Contact();
+                contact.setFirstName(contactFirstName);
                 contact.setLastName(contactLastName);
 
-               invoice.setContactLastName(contactLastName);
-               invoice.setContactFirstName(contactFirstName);
+                invoice.setContactLastName(contactLastName);
+                invoice.setContactFirstName(contactFirstName);
                 invoice.setCompany(companyName);
                 invoicesList.add(invoice);
             }
@@ -81,10 +81,15 @@ public class invoiceController {
             List<invoice> invoices = invoiceController.getInvoiceWithCompany();
             System.out.println(invoiceController.getInvoiceWithCompany());
             model.addAttribute("invoices", invoices);
+            model.addAttribute("templateName", "invoice");
 
-            return "invoice"; // Assurez-vous que "user" est la vue appropriée que vous souhaitez retourner.
+            return "template";
+
         } else {
-            return "loginForm"; // Assurez-vous que "loginForm" est la vue appropriée pour la page de connexion.
+            model.addAttribute("templateName", "loginForm");
+
+            return "template";
+
         }
     }
 

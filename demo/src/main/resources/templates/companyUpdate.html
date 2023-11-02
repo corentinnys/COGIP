@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-test
+<div th:fragment="content">
 <form method="POST" action="/company/modification">
     <input type="hidden" name="id"  th:value="${company.id}">
     <label>votre nom</label>
@@ -19,6 +12,4 @@ test
 
     <input type="submit" value="modifier">
 </form>
-
-</body>
-</html>
+</div>
