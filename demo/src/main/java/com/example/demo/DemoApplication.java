@@ -28,8 +28,6 @@ public class DemoApplication {
 	@GetMapping("/")
 	public String home(Model model)
 	{
-		SendEmail sendEmail = new SendEmail();
-		sendEmail.sendEmail();
 		model.addAttribute("templateName", "loginForm");
 		return "template";
 

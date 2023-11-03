@@ -126,8 +126,14 @@ public class userController {
     @PostMapping("/users/insert")
     public String submitForm(@RequestParam String name , @RequestParam String password,Model model)
     {
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
+        String password2 = passwordGenerator.generatePassword(12);
+        System.out.println(password2);
+        SendEmail sendEmail = new SendEmail();
+        sendEmail.sendEmail(password2);
         DataInsertion dataInsertion = new DataInsertion();
-        dataInsertion.insertData(name,password,"intern");
+        dataInsertion.insertData(name,password2,"intern");
+
         model.addAttribute("templateName", "confirmation");
         return "template";
 

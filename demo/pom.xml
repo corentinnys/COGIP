@@ -55,7 +55,11 @@
 			<artifactId>javax.mail</artifactId>
 			<version>1.6.2</version> <!-- Utilisez la version appropriée -->
 		</dependency>
-
+		<dependency>
+			<groupId>ognl</groupId>
+			<artifactId>ognl</artifactId>
+			<version>3.2.13</version> <!-- Utilisez la version la plus récente disponible -->
+		</dependency>
 
 	</dependencies>
 
