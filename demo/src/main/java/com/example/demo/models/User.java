@@ -1,13 +1,20 @@
-package com.example.demo;
+package com.example.demo.models;
+
+import javax.persistence.*;
+
+
+
+@Entity // for specifies class is an entity and is mapped to a database table.
 
 public class User {
-
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String userName;
     private String role;
 
 
-    public void setUserId(int id)
+    public void setUserId(long id)
     {
         this.id = id;
     }
@@ -31,7 +38,7 @@ public class User {
         return this.role;
     }
 
-    public Integer getId()
+    public Long getId()
     {
         return this.id;
     }

@@ -29,8 +29,8 @@
             <td>/</td>
             <th:block th:if="${#session.getAttribute('role') == 'admin' || #session.getAttribute('role') == 'accountant' }">
                 <td>
-                    <a th:href="'/contacts/modify/' + ${company.id}">modifier</a>
-                    <a th:href="'/contacts/delete/' + ${company.id}">supprimer</a>
+                    <a th:href="'/company/modify/' + ${company.id}">modifier</a>
+                    <a th:href="'/company/delete/' + ${company.id}">supprimer</a>
                 </td>
             </th:block>
         </tr>

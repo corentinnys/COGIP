@@ -1,12 +1,15 @@
-package com.example.demo;
+package com.example.demo.controllers;
+
+import com.example.demo.DataInsertion;
+import com.example.demo.DatabaseConnection;
+import com.example.demo.PasswordGenerator;
+import com.example.demo.SendEmail;
+import com.example.demo.models.User;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,7 +18,6 @@ import java.util.List;
 import java.util.ArrayList;
 @Controller
 public class userController {
-
 
     public List<User> getUsers() {
         DatabaseConnection database = new DatabaseConnection();
@@ -99,9 +101,8 @@ public class userController {
         HttpSession userSession = request.getSession(false);
 
         if (userSession != null) {
+
             userController userController = new userController();
-
-
             model.addAttribute("users", userController.getUsers());
             model.addAttribute("templateName", "user");
             return "template";
@@ -124,7 +125,7 @@ public class userController {
     }
 
     @PostMapping("/users/insert")
-    public String submitForm(@RequestParam String name , @RequestParam String password,Model model)
+    public String submitForm(@RequestParam String name,Model model)
     {
         PasswordGenerator passwordGenerator = new PasswordGenerator();
         String password2 = passwordGenerator.generatePassword(12);
@@ -207,9 +208,7 @@ public class userController {
 
     }
 
-    public void init() {
-        userController  userController= new userController(); // Initialisez correctement l'instance
-    }
+
 
 
 }

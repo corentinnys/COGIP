@@ -1,14 +1,20 @@
 package com.example.demo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.mail.*;
 import javax.mail.internet.*;
+
+import org.springframework.core.io.DefaultResourceLoader;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 public class SendEmail {
     public void sendEmail(String MessagePassword) {
@@ -46,11 +52,22 @@ public class SendEmail {
 
             // Chargez le contenu HTML depuis le fichier
             String htmlContent = null;
-            try (BufferedReader br = new BufferedReader(new FileReader("D:\\Java\\COGIP-2\\COGIP\\demo\\src\\main\\resources\\templates\\mail.html"))) {
-                htmlContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
-            } catch (IOException e) {
-                throw new RuntimeException("Erreur lors de la lecture du fichier HTML : " + e.getMessage(), e);
+            ResourceLoader resourceLoader = new DefaultResourceLoader();
+            Resource resource = resourceLoader.getResource("classpath:templates/mail.html");
+            try{
+                File file = resource.getFile();
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    htmlContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
+                } catch (IOException e) {
+                    throw new RuntimeException("Erreur lors de la lecture du fichier HTML : " + e.getMessage(), e);
+                }
+            }catch (IOException e) {
+                // Gérez l'exception ici, ou faites quelque chose comme imprimer le message d'erreur
+                System.err.println("Une erreur d'entrée/sortie s'est produite : " + e.getMessage());
             }
+
+            //try (BufferedReader br = new BufferedReader(new FileReader("D:\\Java\\COGIP-2\\COGIP\\demo\\src\\main\\resources\\templates\\mail.html"))) {
+
 
             // Générez le contenu HTML en remplaçant la variable Thymeleaf
             String emailContent = templateEngine.process(htmlContent, context);

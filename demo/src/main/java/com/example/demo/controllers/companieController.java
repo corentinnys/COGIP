@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
+import com.example.demo.models.Company;
+import com.example.demo.DatabaseConnection;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,22 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpSession;
-
 
 
 @Controller
 public class companieController {
 
-    private userController userController;
+    private com.example.demo.controllers.userController userController;
 
     public static void main(String[] args) {
         // Vous ne pouvez pas utiliser "this" dans une méthode statique
         // Pour instancier UserController, vous pouvez faire ceci :
-        userController userController = new userController();
+        //userController userController = new userController(userRepository);
     }
     @GetMapping("/company")
     public String userPage(Model model, HttpServletRequest request, HttpServletResponse response) {

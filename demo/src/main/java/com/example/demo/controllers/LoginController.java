@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
+import com.example.demo.DatabaseConnection;
+import com.example.demo.Passwordhashing;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,6 +94,35 @@ public class LoginController {
         return "template";
     }
 
+    @GetMapping("password/reset")
+    public String passwordForm(Model model){
+        model.addAttribute("templateName", "resetPassword");
+        return "template";
+    }
 
+    @PostMapping("password/update")
+    public String updatePassword(@RequestParam String userName,@RequestParam String password,HttpServletRequest request , Model model)
+    {
+        String username = request.getParameter("userName");
+
+        Passwordhashing passwordhashing = new Passwordhashing();
+        String passwordCrypte = passwordhashing.hashing(password);
+        try (Connection connection = new DatabaseConnection().getConnection()) {
+            String sql = "UPDATE  user set password = ? where username = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, passwordCrypte);
+            statement.setString(2, username);
+
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("templateName", "updatePasswordSuccess");
+        return "template";
+    }
 
 }
