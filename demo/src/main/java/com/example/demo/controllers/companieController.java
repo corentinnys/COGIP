@@ -23,8 +23,7 @@ public class companieController {
     private com.example.demo.controllers.userController userController;
 
     public static void main(String[] args) {
-        // Vous ne pouvez pas utiliser "this" dans une méthode statique
-        // Pour instancier UserController, vous pouvez faire ceci :
+
         //userController userController = new userController(userRepository);
     }
     @GetMapping("/company")

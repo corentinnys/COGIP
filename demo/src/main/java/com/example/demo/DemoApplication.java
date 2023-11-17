@@ -17,6 +17,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 @SpringBootApplication
 @Controller
@@ -27,8 +30,10 @@ public class DemoApplication {
 
 	}
 	@GetMapping("/")
-	public String home(Model model)
+	public String home(Model model, HttpSession session)
 	{
+		System.out.println(session.getAttribute("user"));
+		model.addAttribute("session", session.getAttribute("user"));
 		model.addAttribute("templateName", "loginForm");
 		return "template";
 

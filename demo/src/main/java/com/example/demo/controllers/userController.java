@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.*;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ArrayList;
 @Controller
@@ -195,17 +196,12 @@ public class userController {
     }
 
 
-    public boolean checkIfConnect(HttpServletRequest request)
-    {
-        HttpSession userSession = request.getSession(false);
-        if (userSession != null)
-        {
-            return true;
-        }else
-        {
-            return false;
-        }
 
+
+
+    public boolean isSessionEmpty(HttpSession session) {
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        return !attributeNames.hasMoreElements();
     }
 
 

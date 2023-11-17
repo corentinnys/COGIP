@@ -1,10 +1,12 @@
 <div th:fragment="content">
 <form method="POST" action="/company/modification">
     <input type="hidden" name="id"  th:value="${company.id}">
-    <div class="form-group">
-        <label>votre nom</label>
-        <input type="text" name="name" th:value="${company.companyName}">
+
+    <div class="mb-3">
+        <label  class="form-label">le nom</label>
+        <input type="text" class="form-control" name="name" th:value="${company.companyName}" >
     </div>
+
     <div class="form-group">
         <label>le pays</label>
         <input type="text" name="country" th:value="${company.companyCountry}">
@@ -17,6 +19,16 @@
     <label>le type</label>
     <input type="text" name="type" th:value="${company.companyType}">
     </div>
+
+
+
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+
     <input type="submit"  class="btn btn-primary" value="modifier">
 </form>
+
+
 </div>

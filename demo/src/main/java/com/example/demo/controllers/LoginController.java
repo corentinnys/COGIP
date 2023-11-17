@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.DatabaseConnection;
 import com.example.demo.Passwordhashing;
+import com.fasterxml.jackson.databind.DatabindContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.net.ssl.HandshakeCompletedEvent;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,14 +82,31 @@ public class LoginController {
 
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request,Model model)
-    {
-        HttpSession session = request.getSession();
-        session.invalidate();
+    public  String logout(HttpSession session,HttpServletResponse response, Model model) throws IOException {
+        // Ajoutez des logs pour déboguer
+
+
+
+        // Invalider la session
+        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+       // HttpSession session = request.getSession(false);
+
+
+
+            session.invalidate();
+
+// Vérifier et invalider la session
+        /*if (session != null) {
+            session.invalidate();
+        }
+
+        // Redirection vers la page de connexion après déconnexion*/
+        //response.sendRedirect(request.getContextPath() + "/user/loginForm");
         model.addAttribute("templateName", "loginForm");
         return "template";
-
     }
+
+
 
 
     @GetMapping("/register")

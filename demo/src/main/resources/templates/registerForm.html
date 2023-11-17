@@ -1,8 +1,11 @@
 <div th:fragment="content">
 <h1>Inscrivez vous à notre plateforme</h1>
-<form method="post" action="/users/insert">
-    <label>Votre nom</label>
-    <input type="text" name="name">
-    <input type="submit" value="inscription">
+    <form method="post" action="/users/insert">
+    <div class="form-group">
+        <label for="exampleInputPassword1">Votre nom</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" name="name">
+    </div>
+
+    <button type="submit" class="btn btn-primary ">inscription</button>
 </form>
 </div>
